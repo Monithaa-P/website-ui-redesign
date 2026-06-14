@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Wikipedia Redesign</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #eef2f5;
+            font-family: 'Inter', sans-serif;
+            color: #1e293b;
+            padding: 2rem 1.5rem;
+        }
+
+        /* main case study wrapper */
+        .case-study {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 2rem;
+            box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+
+        /* header section with due date & status */
+        .study-header {
+            background: linear-gradient(135deg, #0f2b3d 0%, #1a2c3e 100%);
+            color: white;
+            padding: 2rem 2rem 1.5rem;
+        }
+
+        .meta-row {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .badge {
+            background: rgba(255,255,240,0.12);
+            backdrop-filter: blur(4px);
+            padding: 0.3rem 1rem;
+            border-radius: 60px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .due-box {
+            background: rgba(230, 180, 34, 0.15);
+            border-left: 3px solid #e6b422;
+            padding: 0.4rem 1rem;
+            border-radius: 40px;
+            font-size: 0.8rem;
+        }
+
+        h1 {
+            font-size: 2.3rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin: 0.5rem 0 0.25rem;
+        }
+
+        .sub {
+            color: #cbd5e6;
+            max-width: 680px;
+            border-left: 3px solid #e6b422;
+            padding-left: 1rem;
+            margin-top: 0.5rem;
+        }
+
+        /* project content */
+        .content {
+            padding: 2rem;
+        }
+
+        /* heuristic evaluation card */
+        .heuristic-card {
+            background: #fef9e8;
+            border-radius: 1.5rem;
+            padding: 1.2rem 1.8rem;
+            margin-bottom: 2rem;
+            border-left: 6px solid #e6b422;
+        }
+
+        .section-title {
+            font-weight: 700;
+            font-size: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            margin-bottom: 1rem;
+        }
+
+        .issues-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .issue-item {
+            background: white;
+            border-radius: 1rem;
+            padding: 0.7rem 1rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            align-items: baseline;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+
+        .heuristic-name {
+            font-weight: 700;
+            min-width: 150px;
+            color: #1e293b;
+        }
+
+        /* mood & style guide */
+        .style-mood-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin: 2rem 0;
+            background: #fafcff;
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            border: 1px solid #e2edf7;
+        }
+
+        .color-palette {
+            flex: 1;
+            min-width: 180px;
+        }
+
+        .swatch {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            border-radius: 16px;
+            margin-right: 0.5rem;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+        }
+
+        .typo-demo {
+            flex: 1;
+        }
+
+        /* live mockup section (high-fidelity & responsive) */
+        .live-mockups {
+            margin: 2rem 0;
+        }
+
+        .mockup-tab {
+            background: #f1f6fc;
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .mock-header {
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            border-bottom: 2px solid #cbdff2;
+            padding-bottom: 0.6rem;
+        }
+
+        /* DESKTOP MOCKUP (high fidelity, interactive) */
+        .desktop-preview {
+            background: #ffffff;
+            border-radius: 1.2rem;
+            overflow: hidden;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+            border: 1px solid #dce5ef;
+        }
+
+        .wiki-nav {
+            background: #1a2c3e;
+            padding: 0.8rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            color: white;
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 1.2rem;
+            letter-spacing: -0.3px;
+        }
+
+        .search-area {
+            background: #2d4055;
+            padding: 0.4rem 1rem;
+            border-radius: 40px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .search-area i {
+            color: #e6b422;
+        }
+
+        .desktop-main {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .toc-sidebar {
+            width: 260px;
+            background: #f9fbfd;
+            padding: 1.2rem;
+            border-right: 1px solid #e4edf5;
+        }
+
+        .toc-sidebar h4 {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #4b6a8b;
+        }
+
+        .toc-list {
+            list-style: none;
+            margin-top: 0.8rem;
+        }
+
+        .toc-list li {
+            font-size: 0.8rem;
+            margin: 0.5rem 0;
+            color: #1a2c3e;
+            font-weight: 500;
+            cursor: default;
+        }
+
+        .article-content {
+            flex: 1;
+            padding: 1.5rem;
+        }
+
+        .reading-time {
+            background: #fef4e0;
+            display: inline-block;
+            padding: 0.2rem 0.9rem;
+            border-radius: 30px;
+            font-size: 0.7rem;
+            margin-bottom: 1rem;
+        }
+
+        h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            margin: 0.5rem 0;
+        }
+
+        .citation {
+            background: #eef3fc;
+            border-radius: 20px;
+            padding: 0.2rem 0.6rem;
+            font-size: 0.7rem;
+            font-family: monospace;
+        }
+
+        .img-placeholder {
+            background: #e9f0f5;
+            border-radius: 1rem;
+            padding: 1rem;
+            text-align: center;
+            margin: 1rem 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            color: #2c4c6e;
+        }
+
+        /* MOBILE MOCKUP */
+        .mobile-preview {
+            max-width: 340px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 2rem;
+            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.2);
+            border: 1px solid #cfdfed;
+            overflow: hidden;
+        }
+
+        .mobile-status {
+            background: #1a2c3e;
+            color: white;
+            padding: 0.6rem;
+            text-align: center;
+            font-size: 0.7rem;
+        }
+
+        .mobile-hero {
+            padding: 0.8rem;
+            border-bottom: 1px solid #eef2f8;
+        }
+
+        .mobile-toc-trigger {
+            background: #eef2fa;
+            border-radius: 30px;
+            padding: 0.5rem;
+            text-align: center;
+            font-size: 0.75rem;
+            margin: 0.5rem;
+            font-weight: 600;
+        }
+
+        .mobile-article {
+            padding: 0.8rem;
+        }
+
+        .mobile-nav {
+            display: flex;
+            justify-content: space-around;
+            background: #f8fafc;
+            padding: 0.7rem;
+            border-top: 1px solid #e2edf2;
+            margin-top: 0.5rem;
+        }
+
+        /* responsiveness */
+        @media (max-width: 780px) {
+            .content {
+                padding: 1.2rem;
+            }
+            .desktop-main {
+                flex-direction: column;
+            }
+            .toc-sidebar {
+                width: 100%;
+                border-right: none;
+                border-bottom: 1px solid #e4edf5;
+            }
+        }
+
+        .btn-submit-final {
+            background: #1a2c3e;
+            color: white;
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 2.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            margin-top: 1rem;
+            transition: all 0.2s;
+        }
+
+        .btn-submit-final:hover {
+            background: #e6b422;
+            color: #0f172a;
+        }
+
+        hr {
+            margin: 2rem 0 1rem;
+            border-color: #e2edf7;
+        }
+
+        footer {
+            font-size: 0.7rem;
+            text-align: center;
+            padding: 1rem;
+            color: #5f7f9e;
+        }
+    </style>
+</head>
+<body>
+<div class="case-study">
+    <div class="study-header">
+        <div class="meta-row">
+            <div class="badge-group" style="display: flex; gap: 0.6rem;">
+                <span class="badge"><i class="fas fa-chalkboard-user"></i> UX Case Study</span>
+                <span class="badge"><i class="fas fa-paintbrush-fine"></i> Wikipedia Redesign</span>
+            </div>
+        </div>
+        <h1>🌌 Wikipedia UI Redesign <span style="font-size: 1rem; background: #e6b42230; padding: 0.2rem 0.8rem; border-radius: 30px;">Heuristic · Mood · High-Fidelity</span></h1>
+        <div class="sub">Improving readability, reducing cognitive load & delivering a responsive experience for modern learners.</div>
+    </div>
+
+    <div class="content">
+        <!-- 1. Heuristic Evaluation (Full) -->
+        <div class="heuristic-card">
+            <div class="section-title">
+                <i class="fas fa-clipboard-list" style="color: #e6b422;"></i> Heuristic Evaluation
+            </div>
+            <div class="issues-grid">
+                <div class="issue-item"><span class="heuristic-name">🔍 Visibility of system status</span> No reading time indicator / progress — added “6 min read + scroll progress”</div>
+                <div class="issue-item"><span class="heuristic-name">🎨 Aesthetic & minimalist design</span> Cluttered side panels & edit buttons → removed unnecessary noise, focus on content</div>
+                <div class="issue-item"><span class="heuristic-name">🧠 Recognition rather than recall</span> Hidden table of contents → persistent sidebar on desktop / bottom drawer on mobile</div>
+                <div class="issue-item"><span class="heuristic-name">⚡ Flexibility & efficiency</span> No “save for later” feature → added save & bookmark actions</div>
+            </div>
+            <div style="margin-top: 0.8rem; font-size: 0.7rem; background: #fff4e0; padding: 0.3rem 0.8rem; border-radius: 30px; display: inline-block;"><i class="fas fa-chart-simple"></i> Severity: 3 critical, 2 moderate → all addressed in redesign</div>
+        </div>
+
+        <!-- 2. Mood Board & Style Guide (visual) -->
+        <div class="style-mood-row">
+            <div class="color-palette">
+                <div class="section-title" style="margin-bottom: 0.5rem;"><i class="fas fa-palette"></i> Style Guide</div>
+                <div>
+                    <div class="swatch" style="background: #1A2C3E;"></div> <span>#1A2C3E (Primary)</span><br>
+                    <div class="swatch" style="background: #E6B422;"></div> <span>#E6B422 (Accent/Gold)</span><br>
+                    <div class="swatch" style="background: #F9FAFB;"></div> <span>#F9FAFB (Background)</span><br>
+                    <div class="swatch" style="background: #10B981;"></div> <span>#10B981 (CTA/Save)</span>
+                </div>
+                <div style="margin-top: 0.8rem;"><i class="fas fa-font"></i> Typography: Headings 'Playfair Display', Body 'Inter'</div>
+            </div>
+            <div class="typo-demo">
+                <div class="section-title"><i class="fas fa-moon"></i> Mood Board Direction</div>
+                <p style="font-style: italic; background: #f2f6fc; padding: 0.6rem; border-radius: 1rem;">"Calm knowledge · Scholarly yet serene · Clean airy layouts · Trust + Clarity"</p>
+                <div style="display: flex; gap: 0.5rem; margin-top: 12px;">
+                    <span class="badge" style="background:#e6b42220;">✨ minimalism</span>
+                    <span class="badge" style="background:#e6b42220;">📖 readability first</span>
+                    <span class="badge" style="background:#e6b42220;">📱 accessible</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- LIVE HIGH-FIDELITY MOCKUPS (Desktop + Mobile) -->
+        <div class="live-mockups">
+            <div class="section-title"><i class="fas fa-desktop"></i> High-Fidelity Mockups · Fully responsive visual</div>
+            
+            <!-- DESKTOP MOCKUP -->
+            <div class="mockup-tab">
+                <div class="mock-header"><i class="fas fa-laptop-code"></i> Desktop view (1440px) – redesigned Wikipedia article</div>
+                <div class="desktop-preview">
+                    <div class="wiki-nav">
+                        <div class="logo"><i class="fas fa-globe"></i> Wiki<span style="color:#e6b422;">Redesign</span></div>
+                        <div class="search-area"><i class="fas fa-search"></i> <span>Search article...</span></div>
+                        <div><i class="far fa-bookmark"></i> Save &nbsp;|&nbsp; <i class="fas fa-user"></i> Sign in</div>
+                    </div>
+                    <div class="desktop-main">
+                        <div class="toc-sidebar">
+                            <h4><i class="fas fa-list-ul"></i> CONTENTS</h4>
+                            <ul class="toc-list">
+                                <li>📌 1. Introduction</li>
+                                <li>🚀 2. History of Space Exploration</li>
+                                <li style="margin-left: 1rem;">2.1 Early Rockets</li>
+                                <li style="margin-left: 1rem;">2.2 The Space Race</li>
+                                <li>🌕 3. Major Missions</li>
+                                <li>🔭 4. Future Prospects</li>
+                            </ul>
+                            <div style="margin-top: 1rem; font-size: 0.7rem; background:#ecf3f9; border-radius: 12px; padding: 0.4rem;"><i class="fas fa-hourglass-half"></i> Reading progress: 32%</div>
+                        </div>
+                        <div class="article-content">
+                            <span class="reading-time"><i class="far fa-clock"></i> Estimated 6 min read · 🔖 Saved for later</span>
+                            <h2>Space Exploration</h2>
+                            <p style="margin-top: 0.5rem; line-height: 1.5;">Space exploration is the use of astronomy and space technology to explore outer space. <span class="citation">[1]</span> While observation of objects in space predates reliable history, it was the development of large liquid-fueled rockets during the early 20th century that allowed space exploration to become a practical possibility.</p>
+                            <div class="img-placeholder">
+                                <i class="fas fa-rocket" style="font-size: 2rem;"></i> 🚀 Apollo 11 mission — First Moon landing, 1969
+                            </div>
+                            <p style="margin-top: 0.8rem;">The twentieth century saw humanity break the bounds of Earth, with Sputnik 1 becoming the first artificial satellite. The Apollo program (1961–1972) landed humans on the Moon and revolutionized our perspective. <span class="citation">[2]</span> Today, rovers on Mars and probes beyond our solar system continue to expand knowledge.</p>
+                            <div style="background: #eef3ff; border-radius: 12px; padding: 0.5rem; margin-top: 1rem; font-size: 0.75rem;"><i class="fas fa-quote-left"></i>  “Citation preview: [1] NASA Archive, 2023 — click to expand.”</div>
+                            <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                                <span style="background:#1a2c3e; color:white; padding:0.3rem 1rem; border-radius: 40px;"><i class="fas fa-arrow-left"></i> Previous</span>
+                                <span style="background:#e6b422; color:#1e293b; padding:0.3rem 1rem; border-radius: 40px;">Next article <i class="fas fa-arrow-right"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MOBILE MOCKUP (real interactive preview) -->
+            <div class="mockup-tab">
+                <div class="mock-header"><i class="fas fa-mobile-alt"></i> Mobile responsive (375px) – thumb-friendly + bottom navigation</div>
+                <div style="display: flex; justify-content: center;">
+                    <div class="mobile-preview">
+                        <div class="mobile-status"><i class="fas fa-signal"></i>  9:41  🔋  <i class="fas fa-wifi"></i></div>
+                        <div class="mobile-hero">
+                            <div style="display: flex; justify-content: space-between;"><strong><i class="fas fa-globe"></i> WikiRedesign</strong> <i class="far fa-bookmark"></i></div>
+                            <div style="font-size: 0.7rem; background:#fef3d6; border-radius: 30px; padding: 0.2rem 0.5rem; margin-top: 5px;"><i class="far fa-clock"></i> 6 min read</div>
+                        </div>
+                        <div class="mobile-toc-trigger">
+                            <i class="fas fa-align-justify"></i> Table of Contents ▼
+                        </div>
+                        <div class="mobile-article">
+                            <h3 style="font-family: 'Playfair Display';">Space Exploration</h3>
+                            <p style="font-size: 0.75rem; margin-top: 5px;">Space exploration is the use of astronomy and space tech to explore outer space. <span class="citation">[1]</span> Rockets made it possible in the 20th century.</p>
+                            <div style="background:#eef2fa; border-radius: 16px; padding: 0.4rem; text-align: center; margin: 0.5rem 0;">
+                                <i class="fas fa-moon"></i> Apollo 11 landing (1969)
+                            </div>
+                            <p style="font-size: 0.75rem;">The Space Race pushed innovation, leading to the first humans on the Moon. Modern missions explore Mars and beyond.</p>
+                            <div style="display: flex; gap: 1rem; margin: 0.8rem 0;">
+                                <span style="background:#e6b42220; padding: 0.2rem 0.8rem; border-radius: 30px; font-size: 0.7rem;">🔍 Citation preview</span>
+                                <span style="background:#1a2c3e20; padding: 0.2rem 0.8rem; border-radius: 30px; font-size: 0.7rem;"><i class="fas fa-share-alt"></i> Share</span>
+                            </div>
+                        </div>
+                        <div class="mobile-nav">
+                            <i class="fas fa-home"></i> <i class="fas fa-search"></i> <i class="far fa-save"></i> <i class="fas fa-user"></i>
+                        </div>
+                        <div style="background:#f9fafc; padding: 0.4rem; text-align: center; font-size: 0.6rem;"><i class="fas fa-arrow-left"></i> swipe to navigate articles  <i class="fas fa-arrow-right"></i></div>
+                    </div>
+                </div>
+                <div style="text-align: center; margin-top: 0.8rem; font-size: 0.7rem; color:#4c6a82;"><i class="fas fa-check-circle"></i> Responsive layout: fluid grid, touch targets >44px, readable type</div>
+            </div>
+        </div>
+
+        <!-- Extra: responsive design notes -->
+        <div style="background: #f0f5fb; border-radius: 1.2rem; padding: 1rem 1.5rem; margin: 1rem 0;">
+            <div class="section-title" style="margin-bottom: 0.2rem;"><i class="fas fa-tablet-alt"></i> Responsive Behavior (breakpoints)</div>
+            <div style="display: flex; flex-wrap: wrap; gap: 1rem; justify-content: space-between;">
+                <div><strong>📱 Mobile (<768px)</strong><br>Bottom navigation, collapsible ToC, single column, larger tap targets</div>
+                <div><strong>📟 Tablet (768–1024px)</strong><br>Sidebar collapses to a hamburger, two-column grid optional</div>
+                <div><strong>🖥️ Desktop (≥1024px)</strong><br>Persistent TOC, multi-column reading zone, hover citations</div>
+            </div>
+        </div>
+
+        <!-- Final outcome section & submit simulation -->
+        <hr>
+        <div style="display: flex; justify-content: space-between; flex-wrap: wrap; align-items: center; gap: 1rem;">
+            <div>
+                <div class="section-title" style="margin-bottom: 0;"><i class="fas fa-chart-line"></i> Expected outcome achieved</div>
+                <ul style="margin-left: 1.2rem;">
+                    <li>✅ Visual hierarchy with clear content zones</li>
+                    <li>✅ Modern layout design & spacing system</li>
+                    <li>✅ Fully responsive (desktop, mobile, tablet ready)</li>
+                </ul>
+            </div>
+        <footer>
+            <i class="fas fa-check-circle" style="color:#10b981;"></i> Heuristic evaluation · Mood board & style guide · High-fidelity mockups for desktop & mobile ·
+        </footer>
+    </div>
+</div>
+
+
+</body>
+</html>
